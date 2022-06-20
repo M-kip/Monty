@@ -1,6 +1,3 @@
-#include <stddef.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include "monty.h"
 global_t globals;
 /**
@@ -19,14 +16,14 @@ void free_globals(void)
 *
 * Return: always return None
 */
-void start_globals(FILE fp)
+void start_globals(FILE *fp)
 {
 	globals.count = 1;
-	globals.fd = fd;
+	globals.fd = fp;
 	globals.buffer = NULL;
 	globals.lifo = 1;
 	globals.arg = NULL;
-	globals.head = NULL;	
+	globals.head = NULL;
 }
 /**
 * main - Driver function for the interpreter
@@ -39,17 +36,19 @@ int main(int argc, char *argv[])
 {
 	FILE *fp;
 	size_t size = 1024;
-	size_t nlines = 0;
+	ssize_t nlines = 0;
 	char *tokens[2] = {NULL, NULL};
+	void (*func)(stack_t **stack, unsigned int line_number);
 
-	if (argc = 1 || argc > 2)
+	if ((argc == 1 || argc > 2))
 	{
 		perror("USAGE: monty file \n");
 		exit(EXIT_FAILURE);
 	}
-	if ((fp = fopen(argv[1], "r")) == NULL)
+	fp = fopen(argv[1], "r");
+	if (fp == NULL)
 	{
-		fprintf(stderr, "Error can't open %s \n", argv[1]);
+		dprintf(2, "Error can't open %s \n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
 	start_globals(fp);
@@ -57,7 +56,7 @@ int main(int argc, char *argv[])
 
 	while (nlines != -1)
 	{
-		tokens[0] = strtok(globals.buffer, " \t\n");
+		tokens[0] = _strtoky(globals.buffer, " \t\n");
 		if (tokens[0] && tokens[0][0] != '#')
 		{
 			func = get_opcode(tokens[0]);
@@ -67,13 +66,12 @@ int main(int argc, char *argv[])
 				free_globals();
 				exit(EXIT_FAILURE);
 			}
-			globals.arg = strtok(NULL, " \t\n");
+			globals.arg = _strtoky(NULL, " \t\n");
 			func(&globals.head, globals.count);
 		}
 		nlines = getline(&globals.buffer, &size, fp);
 		globals.count++;
 	}
 	free_globals();
-
 	return (0);
 }

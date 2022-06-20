@@ -1,3 +1,4 @@
+#include "monty.h"
 /**
 * get_opcode - return a pointer to a function
 * @opcode: opcode passed to function
@@ -19,6 +20,5 @@ void (*get_opcode(char *opcode))(stack_t **head, unsigned int number)
 		if (strcmp(instructions[i].opcode, opcode) == 0)
 			break;
 	}
-	
 	return (instructions[i].f);
 }

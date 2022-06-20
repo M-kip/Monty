@@ -6,46 +6,44 @@
 *
 * Return: void
 */
-void push(stack **head, unsigned int line_count)
+void push(stack_t **head, unsigned int line_count)
 {
-	int i;
+	int i, x;
 
 	if (!globals.arg)
 	{
-		dprint(2, "L:%u:", line_count);
-		dprint(2, "usage: push integer\n");
-		free_globals():
+		dprintf(2, "L:%u:", line_count);
+		dprintf(2, "usage: push integer\n");
+		free_globals();
 		exit(EXIT_FAILURE);
 	}
 	for (i = 0; globals.arg[i] != '\0'; i++)
 	{
-		if (!isdigit(globals.arg[i]) && globals[i] != '-')
+		if (!isdigit(globals.arg[i]) && globals.arg[i] != '-')
 		{
-			dprint(2, "L%u:", line_count);
-			dprint(2, "usage: push integer\n");
+			dprintf(2, "L%u:", line_count);
+			dprintf(2, "usage: push integer\n");
 			free_globals();
 			exit(EXIT_FAILURE);
 		}
 	}
-	
 	x = atoi(globals.arg);
 
 	if (globals.lifo == 1)
-		addNode(stack, n);
+		addNode(head, x);
 	else
-		addNodeEnd(stack, n);
+		addNodeEnd(head, x);
 }
 /**
 * pall prints all the values on the stack
 * @stack: doubly list
-* @line_count: line number
 *
 * Return: void
 */
 void pall(stack_t **stack, unsigned int line_count)
 {
 	stack_t *temp;
-
+	(void) line_count;
 	temp = (*stack);
 	while (temp != NULL)
 	{
@@ -62,11 +60,11 @@ void pall(stack_t **stack, unsigned int line_count)
 */
 void pint(stack_t **head, unsigned int line_count)
 {
-	if ((*head) = NULL)
+	if (((*head) == NULL))
 	{
 		dprintf(2, "L%u: ", line_count);
 		dprintf(2, "can't pint , stack empty\n");
-		free_globals()
+		free_globals();
 		exit(EXIT_FAILURE);
 	}
 
@@ -81,15 +79,15 @@ void pint(stack_t **head, unsigned int line_count)
 */
 void pop(stack_t **head, unsigned int line_count)
 {
-	stack_t node;
-	
+	stack_t *node;
+
 	if ((*head) == NULL)
 	{
 		dprintf(2, "L%u: can't pop an empty stack\n", line_count);
 		free_globals();
 		exit(EXIT_FAILURE);
 	}
-	
+
 	node = (*head);
 	(*head) = (*head)->next;
 	free(node);
@@ -104,21 +102,21 @@ void pop(stack_t **head, unsigned int line_count)
 void swap(stack_t **head, unsigned int line_count)
 {
 	int n = 0;
-	stack_t tempNode;
+	stack_t *tempNode;
 
 	tempNode = (*head);
-	while(tempNode != NULL)
+	while (tempNode != NULL)
 	{
 		tempNode = tempNode->next;
-		n++
+		n++;
 	}
 	if (n < 2)
 	{
-		dprint(2, "L;u can't swap, stack too short\n", line_count);
-		free_globals()
+		dprintf(2, "L%u: can't swap, stack too short\n", line_count);
+		free_globals();
 		exit(EXIT_FAILURE);
 	}
-	
+
 	tempNode = (*head);
 	(*head) = (*head)->next;
 	tempNode->next = (*head)->next;

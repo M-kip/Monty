@@ -6,15 +6,14 @@
 *
 * Return: struct
 */
-stack_t addNode(stack_t **head, int data)
+stack_t *addNode(stack_t **head, int data)
 {
-	stack_t  node;
-	
-	if (head == NULL)
-		return (NULL);
+	stack_t  *node;
 
-	node = (stack_t *) malloc(sizeof(stack_t))
-	if (!node)
+	if (head == NULL)
+		exit(EXIT_FAILURE);
+	node = (stack_t *)malloc(sizeof(stack_t));
+	if (node == NULL)
 	{
 		dprintf(2, "Error: malloc failed\n");
 		free_globals();
@@ -40,10 +39,10 @@ stack_t addNode(stack_t **head, int data)
 void deleteNode(stack_t *head)
 {
 	stack_t *node;
-	
+
 	while ((node = head) != NULL)
 	{
-	 	head = head->next;
+		head = head->next;
 		free(node);
 	}
 }
@@ -60,11 +59,11 @@ stack_t *addNodeEnd(stack_t **head, int data)
 	stack_t *node;
 
 	if (head == NULL)
-		return (NULL);
-	node = (stack_t *)malloc(sizeof(stack_t);
-	if (!node)
+		exit(EXIT_FAILURE);
+	node = malloc(sizeof(stack_t));
+	if (node == NULL)
 	{
-		dprint(2, "Error: malloc failed\n");
+		dprintf(2, "Error: malloc failed\n");
 		free_globals();
 		exit(EXIT_FAILURE);
 	}
